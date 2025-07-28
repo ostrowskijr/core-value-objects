@@ -7,6 +7,13 @@ describe('CpfCnpj', () => {
     expect(cpf.getFormatado()).toBe('123.456.789-09');
   });
 
+  it('Deve lançar erro devido primeiro digito inválido', () => {
+    expect(() => new CpfCnpj('123.456.789-99')).toThrow('CPF ou CNPJ inválido.');
+  });
+  it('Deve lançar erro devido segundo digito inválido', () => {
+    expect(() => new CpfCnpj('123.456.789-00')).toThrow('CPF ou CNPJ inválido.');
+  });
+
   it('deve aceitar CNPJ válido', () => {
     const cnpj = new CpfCnpj('45.723.174/0001-10');
     expect(cnpj.getLimpo()).toBe('45723174000110');
