@@ -1,0 +1,28 @@
+{
+  "name": "core-value-objects",
+  "version": "1.0.0",
+  "description": "Biblioteca de Value Objects reutilizáveis para domínios de negócio",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "value-object",
+    "cpf",
+    "email",
+    "telefone",
+    "domínio",
+    "typescript"
+  ],
+  "author": "Luis Ostrowski",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "jest": "^30.0.5",
+    "ts-jest": "^29.4.0",
+    "typescript": "^5.3.3"
+  }
+}
