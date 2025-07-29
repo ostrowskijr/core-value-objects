@@ -1,25 +1,27 @@
-export class Cep {
-  private readonly valor: string;
+import { IValueObjects } from "../interface/vo.interface";
 
-  constructor(valor: string) {
-    const limpo = valor.replace(/\D/g, '');
-    if (!Cep.validar(limpo)) throw new Error('CEP inválido.');
-    this.valor = limpo;
+export class Cep implements IValueObjects<string> {
+  private readonly value: string;
+
+  constructor(value: string) {
+    const valueClean = value.replace(/\D/g, '');
+    if (!Cep.validate(valueClean)) throw new Error('CEP inválido.');
+    this.value = valueClean;
   }
 
-  static validar(cep: string): boolean {
+  static validate(cep: string): boolean {
     return /^\d{8}$/.test(cep);
   }
 
-  getLimpo(): string {
-    return this.valor;
+  getValue(): string {
+    return this.value;
   }
 
-  getFormatado(): string {
-    return this.valor.replace(/(\d{5})(\d{3})/, '$1-$2');
+  getValueFormatted(): string {
+    return this.value.replace(/(\d{5})(\d{3})/, '$1-$2');
   }
 
-  equals(outro: Cep): boolean {
-    return this.valor === outro.getLimpo();
+  equals(value: IValueObjects): boolean {
+    return value instanceof Cep && this.value === value.getValue();
   }
 }

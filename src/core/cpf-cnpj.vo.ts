@@ -1,27 +1,27 @@
-export class CpfCnpj {
-  private readonly valor: string;
+import { IValueObjects } from "../interface/vo.interface";
 
-  constructor(valor: string) {
-    const somenteNumeros = valor.replace(/\D/g, '');
+export class CpfCnpj implements IValueObjects<string> {
+  private readonly value: string;
 
-    if (!CpfCnpj.validar(somenteNumeros)) {
+  constructor(value: string) {
+    const documentNumbers = value.replace(/\D/g, '');
+    if (!CpfCnpj.validate(documentNumbers)) {
       throw new Error('CPF ou CNPJ inválido.');
     }
-
-    this.valor = somenteNumeros;
+    this.value = documentNumbers;
   }
 
-  static validar(valor: string): boolean {
-    const numeros = valor.replace(/\D/g, '');
-    if (numeros.length === 11) {
-      return this.validarCPF(numeros);
-    } else if (numeros.length === 14) {
-      return this.validarCNPJ(numeros);
+  static validate(value: string): boolean {
+    const documentNumbers = value.replace(/\D/g, '');
+    if (documentNumbers.length === 11) {
+      return this.validateCPF(documentNumbers);
+    } else if (documentNumbers.length === 14) {
+      return this.validateCNPJ(documentNumbers);
     }
     return false;
   }
 
-  private static validarCPF(cpf: string): boolean {
+  private static validateCPF(cpf: string): boolean {
     if (/^(\d)\1{10}$/.test(cpf)) return false;
 
     let soma = 0;
@@ -37,7 +37,7 @@ export class CpfCnpj {
     return resto === parseInt(cpf.charAt(10));
   }
 
-  private static validarCNPJ(cnpj: string): boolean {
+  private static validateCNPJ(cnpj: string): boolean {
     if (/^(\d)\1{13}$/.test(cnpj)) return false;
 
     let tamanho = cnpj.length - 2;
@@ -66,18 +66,21 @@ export class CpfCnpj {
     return resultado === parseInt(digitos.charAt(1));
   }
 
-  getLimpo(): string {
-    return this.valor;
+  getValue(): string {
+    return this.value;
   }
 
-  getFormatado(): string {
-    if (this.valor.length === 11) {
-      return this.valor.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+  getValueFormatted(): string {
+    if (this.value.length === 11) {
+      return this.value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
     }
-    return this.valor.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+    return this.value.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
   }
 
-  equals(outro: CpfCnpj): boolean {
-    return this.valor === outro.getLimpo();
+  equals(value: IValueObjects): boolean {
+    if (value instanceof CpfCnpj) {
+      return this.value === value.getValue();
+    }
+    return false;
   }
 }

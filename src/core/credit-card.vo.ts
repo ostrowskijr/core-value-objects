@@ -1,13 +1,14 @@
-export class CreditCard {
-  private readonly valor: string;
+import { IValueObjects } from "../interface/vo.interface";
+export class CreditCard implements IValueObjects<string> {
+  private readonly value: string;
 
-  constructor(valor: string) {
-    const limpo = valor.replace(/\D/g, '');
-    if (!CreditCard.validar(limpo)) throw new Error('Cartão de crédito inválido.');
-    this.valor = limpo;
+  constructor(value: string) {
+    const valueClean = value.replace(/\D/g, '');
+    if (!CreditCard.validate(valueClean)) throw new Error('Cartão de crédito inválido.');
+    this.value = valueClean;
   }
 
-  static validar(numero: string): boolean {
+  static validate(numero: string): boolean {
     let soma = 0;
     let par = false;
     for (let i = numero.length - 1; i >= 0; i--) {
@@ -22,15 +23,18 @@ export class CreditCard {
     return soma % 10 === 0;
   }
 
-  getLimpo(): string {
-    return this.valor;
+  getValue(): string {
+    return this.value;
   }
 
-  getFormatado(): string {
-    return this.valor.replace(/(\d{4})(?=\d)/g, '$1 ');
+  getValueFormatted(): string {
+    return this.value.replace(/(\d{4})(?=\d)/g, '$1 ');
   }
 
-  equals(outro: CreditCard): boolean {
-    return this.valor === outro.getLimpo();
+  equals(value: CreditCard): boolean {
+    if (!(value instanceof CreditCard)) {
+      return false;
+    }
+    return this.value === value.getValue();
   }
 }

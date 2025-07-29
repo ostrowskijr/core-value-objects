@@ -3,12 +3,12 @@ import { Email } from '../src/core/email.vo';
 describe('Email', () => {
   it('deve aceitar email válido', () => {
     const email = new Email('usuario@dominio.com');
-    expect(email.getValor()).toBe('usuario@dominio.com');
+    expect(email.getValue()).toBe('usuario@dominio.com');
   });
 
   it('deve limpar espaços e formatar para lowercase', () => {
     const email = new Email('  USUARIO@Dominio.com  ');
-    expect(email.getValor()).toBe('usuario@dominio.com');
+    expect(email.getValue()).toBe('usuario@dominio.com');
   });
 
   it('deve lançar erro para email inválido', () => {

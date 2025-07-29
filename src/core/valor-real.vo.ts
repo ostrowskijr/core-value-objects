@@ -1,4 +1,6 @@
-export class ValorReal {
+import { IValueObjects } from "../interface/vo.interface";
+
+export class ValorReal implements IValueObjects<number> {
   private readonly valor: number;
 
   constructor(valor: number) {
@@ -6,15 +8,18 @@ export class ValorReal {
     this.valor = parseFloat(valor.toFixed(2));
   }
 
-  getValor(): number {
+  getValue(): number {
     return this.valor;
   }
 
-  getFormatado(): string {
+  getValueFormatted(): string {
     return this.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   }
 
-  equals(outro: ValorReal): boolean {
-    return this.valor === outro.getValor();
+  equals(value: IValueObjects): boolean {
+    if (value instanceof ValorReal) {
+      return this.valor === value.getValue();
+    }
+    return false;
   }
 }

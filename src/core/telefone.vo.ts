@@ -1,14 +1,14 @@
-export class Telefone {
-  private readonly valor: string;
+import { IValueObjects } from "../interface/vo.interface";
 
-  constructor(valor: string) {
-    const somenteNumeros = valor.replace(/\D/g, '');
+export class Telefone implements IValueObjects<string> {
+  private readonly value: string;
 
-    if (!Telefone.validar(somenteNumeros)) {
+  constructor(value: string) {
+    const numbers = value.replace(/\D/g, '');
+    if (!Telefone.validar(numbers)) {
       throw new Error('Telefone inválido.');
     }
-
-    this.valor = somenteNumeros;
+    this.value = numbers;
   }
 
   static validar(telefone: string): boolean {
@@ -17,22 +17,21 @@ export class Telefone {
     return regexCelular.test(telefone) || regexFixo.test(telefone);
   }
 
-  getLimpo(): string {
-    return this.valor;
+  getValue(): string {
+    return this.value;
   }
 
-  getFormatado(): string {
-    const ddd = this.valor.slice(0, 2);
-    const numero = this.valor.slice(2);
-
-    if (numero.length === 9) {
-      return `(${ddd}) ${numero.slice(0, 5)}-${numero.slice(5)}`;
+  getValueFormatted(): string {
+    const ddd = this.value.slice(0, 2);
+    const numer = this.value.slice(2);
+    if (numer.length === 9) {
+      return `(${ddd}) ${numer.slice(0, 5)}-${numer.slice(5)}`;
     } else {
-      return `(${ddd}) ${numero.slice(0, 4)}-${numero.slice(4)}`;
+      return `(${ddd}) ${numer.slice(0, 4)}-${numer.slice(4)}`;
     }
   }
 
-  equals(outro: Telefone): boolean {
-    return this.valor === outro.getLimpo();
+  equals(value: Telefone): boolean {
+    return this.value === value.getValue();
   }
 }

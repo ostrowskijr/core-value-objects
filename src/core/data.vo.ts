@@ -1,6 +1,7 @@
-import { format } from 'date-fns';
 
-export class Data {
+import { IValueObjects } from './../interface/vo.interface';
+import { format } from 'date-fns';
+export class Data implements IValueObjects<Date> {
   private readonly valor: Date;
 
   constructor(data: string | Date) {
@@ -14,15 +15,18 @@ export class Data {
     }
   }
 
-  getData(): Date {
+  getValue(): Date {
     return this.valor;
   }
 
-  getFormatada(): string {
+  getValueFormatted(): string {
     return format(this.valor, 'dd/MM/yyyy');
   }
 
   equals(outro: Data): boolean {
-    return this.valor.toISOString() === outro.getData().toISOString();
+    if (!(outro instanceof Data)) {
+      return false;
+    }
+    return this.valor.toISOString() === outro.getValue().toISOString();
   }
 }
