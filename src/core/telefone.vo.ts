@@ -17,11 +17,8 @@ export class Telefone implements IValueObjects<string> {
     return regexCelular.test(telefone) || regexFixo.test(telefone);
   }
 
-  getValue(): string {
-    return this.value;
-  }
-
-  getValueFormatted(): string {
+  getValue = (): string => this.value;
+  getValueFormatted = (): string => {
     const ddd = this.value.slice(0, 2);
     const numer = this.value.slice(2);
     if (numer.length === 9) {
@@ -30,8 +27,5 @@ export class Telefone implements IValueObjects<string> {
       return `(${ddd}) ${numer.slice(0, 4)}-${numer.slice(4)}`;
     }
   }
-
-  equals(value: Telefone): boolean {
-    return this.value === value.getValue();
-  }
+  equals = (value: Telefone): boolean => this.value === value.getValue();
 }

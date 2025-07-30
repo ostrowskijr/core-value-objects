@@ -4,23 +4,11 @@ export class Horario implements IValueObjects<string> {
   private readonly value: string;
 
   constructor(value: string) {
-    if (!Horario.validar(value)) throw new Error('Horário inválido.');
+    if (!Horario.validate(value)) throw new Error('Horário inválido.');
     this.value = value;
   }
-
-  static validar(horario: string): boolean {
-    return /^([01]?\d|2[0-3]):[0-5]\d$/.test(horario);
-  }
-
-  getValue(): string {
-    return this.value;
-  }
-
-  getValueFormatted(): string {
-    return this.value.replace(":", "h");
-  }
-
-  equals(outro: Horario): boolean {
-    return this.value === outro.getValue();
-  }
+  static validate = (horario: string): boolean => /^([01]?\d|2[0-3]):[0-5]\d$/.test(horario);
+  getValue = (): string => this.value;
+  getValueFormatted = (): string => this.value.replace(":", "h");
+  equals = (outro: Horario): boolean => this.value === outro.getValue();
 }

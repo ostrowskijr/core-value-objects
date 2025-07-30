@@ -8,7 +8,7 @@ export class CreditCard implements IValueObjects<string> {
     this.value = valueClean;
   }
 
-  static validate(numero: string): boolean {
+  private static validate = (numero: string): boolean => {
     let soma = 0;
     let par = false;
     for (let i = numero.length - 1; i >= 0; i--) {
@@ -22,19 +22,7 @@ export class CreditCard implements IValueObjects<string> {
     }
     return soma % 10 === 0;
   }
-
-  getValue(): string {
-    return this.value;
-  }
-
-  getValueFormatted(): string {
-    return this.value.replace(/(\d{4})(?=\d)/g, '$1 ');
-  }
-
-  equals(value: CreditCard): boolean {
-    if (!(value instanceof CreditCard)) {
-      return false;
-    }
-    return this.value === value.getValue();
-  }
+  getValue = (): string => this.value;
+  getValueFormatted = (): string => this.value.replace(/(\d{4})(?=\d)/g, '$1 ');
+  equals = (value: CreditCard): boolean => this.value === value.getValue();
 }

@@ -16,5 +16,11 @@ describe('Name of the group', () => {
     expect(() => new Nome('')).toThrow('Nome inválido.');
     expect(() => new Nome('João123')).toThrow('Nome inválido.');
   });
-  
+
+  it('should compare names correctly', () => {
+    const nome1 = new Nome('Maria da Silva');
+    const nome2 = new Nome('Maria da Silva');
+    expect(nome1.equals(nome2)).toBe(true);
+  });
+
 });

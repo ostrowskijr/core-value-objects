@@ -12,9 +12,12 @@ describe('UF', () => {
 
   it('deve comparar UFs corretamente', () => {
     const uf1 = new UF('RJ');
-    const uf2 = new UF('RJ');
-    const uf3 = new UF('SP');
-    expect(uf1.equals(uf2)).toBe(true);
+    const uf2 = new UF('RJ');    
+    expect(uf1.equals(uf2)).toBe(true);    
+  });
+  it('deve comparar UFs erradas', () => {
+    const uf1 = new UF('RJ');
+    const uf3 = new UF('SP');    
     expect(uf1.equals(uf3)).toBe(false);
   });
 });

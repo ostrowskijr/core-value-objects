@@ -1,31 +1,13 @@
 import { IValueObjects } from "../interface/vo.interface";
 
 export class Email implements IValueObjects<string> {
-  private readonly valor: string;
+  private readonly value: string;
 
-  constructor(valor: string) {
-    const emailLimpo = valor.trim().toLowerCase();
-
-    if (!Email.validate(emailLimpo)) {
-      throw new Error('E-mail inválido.');
-    }
-
-    this.valor = emailLimpo;
+  constructor(value: string) {
+    if (!Email.validate(value.trim().toLowerCase())) throw new Error('E-mail inválido.');
+    this.value = value.trim().toLowerCase();
   }
-
-  static validate(email: string): boolean {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-    return regex.test(email.trim().toLowerCase());
-  }
-
-  getValue(): string {
-    return this.valor;
-  }
-
-  equals(value: IValueObjects): boolean {
-    if (!(value instanceof Email)) {
-      return false;
-    }
-    return this.valor === value.getValue();
-  }
+  static validate = (email: string): boolean => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(email.trim().toLowerCase());
+  getValue = (): string => this.value;
+  equals = (value: IValueObjects): boolean => this.value === value.getValue();
 }

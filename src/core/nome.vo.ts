@@ -10,16 +10,7 @@ export class Nome implements IValueObjects<string> {
     }
     this.value = value.trim();
   }
-
-  static validate(value: string): boolean {
-    return value.length >= 2 && /[a-zA-Z]+ [a-zA-Z]+/.test(value);
-  }
-
-  getValue(): string {
-    return this.value;
-  }
-
-  equals(value: Nome): boolean {
-    return this.value === value.getValue();
-  }
+  static validate = (value: string): boolean => value.length >= 2 && /[a-zA-Z]+ [a-zA-Z]+/.test(value);
+  getValue = (): string => this.value;
+  equals = (value: Nome): boolean => this.value === value.getValue();
 }

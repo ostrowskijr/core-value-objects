@@ -29,29 +29,12 @@ export class Password implements IValueObjects<string> {
     return true;
   }
 
-  getValue(): string {
-    return this.value;
-  }
-
-  equals(value: IValueObjects): boolean {
-    if (!(value instanceof Password)) {
-      return false;
-    }
-    return this.value === value.getValue();
-  }
+  getValue = (): string => this.value;
+  equals = (value: IValueObjects): boolean => this.value === value.getValue();  
   
-  private static isValidNumberOfDigits(value: string, numberOfDigits: number): boolean {
-    return value.length < numberOfDigits || value.length > numberOfDigits;
-  }
-
-  private static isValidSpecialCharacters(value: string, numberOfSpecialCharacters: number): boolean {
-    return (value.match(/[!@#$%^&*(),.?":{}|<>]/g) || []).length !== numberOfSpecialCharacters;
-  }
-
-  private static isValidUppercase(value: string, numberOfUppercase: number): boolean {
-    return (value.match(/[A-Z]/g) || []).length !== numberOfUppercase;
-  }
-
+  private static isValidNumberOfDigits = (value: string, numberOfDigits: number): boolean => value.length < numberOfDigits || value.length > numberOfDigits;
+  private static isValidSpecialCharacters = (value: string, numberOfSpecialCharacters: number): boolean => (value.match(/[!@#$%^&*(),.?":{}|<>]/g) || []).length !== numberOfSpecialCharacters;
+  private static isValidUppercase = (value: string, numberOfUppercase: number): boolean => (value.match(/[A-Z]/g) || []).length !== numberOfUppercase;
 }
 
 type PasswordOptions = {

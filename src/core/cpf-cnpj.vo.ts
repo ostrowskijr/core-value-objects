@@ -11,7 +11,7 @@ export class CpfCnpj implements IValueObjects<string> {
     this.value = documentNumbers;
   }
 
-  static validate(value: string): boolean {
+  private static validate(value: string): boolean {
     const documentNumbers = value.replace(/\D/g, '');
     if (documentNumbers.length === 11) {
       return this.validateCPF(documentNumbers);
@@ -20,6 +20,14 @@ export class CpfCnpj implements IValueObjects<string> {
     }
     return false;
   }
+  getValue = (): string => this.value;
+  getValueFormatted = (): string => {
+    if (this.value.length === 11) {
+      return this.value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+    }
+    return this.value.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+  }
+  equals = (value: IValueObjects): boolean => this.value === value.getValue();
 
   private static validateCPF(cpf: string): boolean {
     if (/^(\d)\1{10}$/.test(cpf)) return false;
@@ -64,23 +72,5 @@ export class CpfCnpj implements IValueObjects<string> {
 
     resultado = soma % 11 < 2 ? 0 : 11 - (soma % 11);
     return resultado === parseInt(digitos.charAt(1));
-  }
-
-  getValue(): string {
-    return this.value;
-  }
-
-  getValueFormatted(): string {
-    if (this.value.length === 11) {
-      return this.value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
-    }
-    return this.value.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
-  }
-
-  equals(value: IValueObjects): boolean {
-    if (value instanceof CpfCnpj) {
-      return this.value === value.getValue();
-    }
-    return false;
   }
 }

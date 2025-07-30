@@ -9,15 +9,6 @@ export class UF implements IValueObjects<string> {
     if (!UF_LIST.includes(uf)) throw new Error('UF inválido.');
     this.value = uf;
   }
-
-  getValue(): string {
-    return this.value;
-  }
-
-  equals(value: IValueObjects): boolean {
-    if (value instanceof UF) {
-      return this.value === value.getValue();
-    }
-    return false;
-  }
+  getValue = (): string => this.value;
+  equals = (value: IValueObjects): boolean => this.value === value.getValue();
 }
