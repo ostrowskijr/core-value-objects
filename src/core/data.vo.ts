@@ -16,5 +16,5 @@ export class Data implements IValueObjects<Date> {
   }
   getValue = (): Date => this.value;
   getValueFormatted = (): string => format(this.value, 'dd/MM/yyyy');
-  equals = (outro: Data): boolean => this.value.toISOString() === outro.getValue().toISOString();
+  equals = (value: IValueObjects): boolean => value instanceof Data && this.value.toISOString() === value.getValue().toISOString();
 }

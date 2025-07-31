@@ -10,5 +10,5 @@ export class Horario implements IValueObjects<string> {
   static validate = (horario: string): boolean => /^([01]?\d|2[0-3]):[0-5]\d$/.test(horario);
   getValue = (): string => this.value;
   getValueFormatted = (): string => this.value.replace(":", "h");
-  equals = (outro: Horario): boolean => this.value === outro.getValue();
+  equals = (value: IValueObjects): boolean => value instanceof Horario && this.value === value.getValue();
 }

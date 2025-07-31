@@ -9,5 +9,5 @@ export class Email implements IValueObjects<string> {
   }
   static validate = (email: string): boolean => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(email.trim().toLowerCase());
   getValue = (): string => this.value;
-  equals = (value: IValueObjects): boolean => this.value === value.getValue();
+  equals = (value: IValueObjects): boolean => value instanceof Email && this.value === value.getValue();
 }

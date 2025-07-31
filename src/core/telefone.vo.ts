@@ -27,5 +27,5 @@ export class Telefone implements IValueObjects<string> {
       return `(${ddd}) ${numer.slice(0, 4)}-${numer.slice(4)}`;
     }
   }
-  equals = (value: Telefone): boolean => this.value === value.getValue();
+  equals = (value: IValueObjects): boolean => value instanceof Telefone && this.value === value.getValue();
 }

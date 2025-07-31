@@ -30,7 +30,7 @@ export class Password implements IValueObjects<string> {
   }
 
   getValue = (): string => this.value;
-  equals = (value: IValueObjects): boolean => this.value === value.getValue();  
+  equals = (value: IValueObjects): boolean => value instanceof Password && this.value === value.getValue();  
   
   private static isValidNumberOfDigits = (value: string, numberOfDigits: number): boolean => value.length < numberOfDigits || value.length > numberOfDigits;
   private static isValidSpecialCharacters = (value: string, numberOfSpecialCharacters: number): boolean => (value.match(/[!@#$%^&*(),.?":{}|<>]/g) || []).length !== numberOfSpecialCharacters;

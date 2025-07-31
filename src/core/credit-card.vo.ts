@@ -24,5 +24,5 @@ export class CreditCard implements IValueObjects<string> {
   }
   getValue = (): string => this.value;
   getValueFormatted = (): string => this.value.replace(/(\d{4})(?=\d)/g, '$1 ');
-  equals = (value: CreditCard): boolean => this.value === value.getValue();
+  equals = (value: IValueObjects): boolean => value instanceof CreditCard && this.value === value.getValue();
 }

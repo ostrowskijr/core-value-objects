@@ -9,5 +9,5 @@ export class ValorReal implements IValueObjects<number> {
   }
   getValue = (): number => this.valor;
   getValueFormatted = (): string => this.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-  equals = (value: IValueObjects): boolean => this.valor === value.getValue();
+  equals = (value: IValueObjects): boolean => value instanceof ValorReal && this.valor === value.getValue();
 }

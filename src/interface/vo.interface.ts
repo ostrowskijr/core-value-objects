@@ -1,4 +1,4 @@
-export interface IValueObjects<T = string | Date | number> {  
+export interface IValueObjects<T = any> {  
   getValue(): T;
   getValueFormatted?(): string;
   equals(value: IValueObjects): boolean;

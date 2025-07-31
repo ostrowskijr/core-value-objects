@@ -27,7 +27,7 @@ export class CpfCnpj implements IValueObjects<string> {
     }
     return this.value.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
   }
-  equals = (value: IValueObjects): boolean => this.value === value.getValue();
+  equals = (value: IValueObjects): boolean => value instanceof CpfCnpj && this.value === value.getValue();
 
   private static validateCPF(cpf: string): boolean {
     if (/^(\d)\1{10}$/.test(cpf)) return false;

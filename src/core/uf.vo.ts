@@ -10,5 +10,5 @@ export class UF implements IValueObjects<string> {
     this.value = uf;
   }
   getValue = (): string => this.value;
-  equals = (value: IValueObjects): boolean => this.value === value.getValue();
+  equals = (value: IValueObjects): boolean => value instanceof UF && this.value === value.getValue();
 }

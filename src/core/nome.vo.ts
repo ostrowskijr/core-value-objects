@@ -12,5 +12,5 @@ export class Nome implements IValueObjects<string> {
   }
   static validate = (value: string): boolean => value.length >= 2 && /[a-zA-Z]+ [a-zA-Z]+/.test(value);
   getValue = (): string => this.value;
-  equals = (value: Nome): boolean => this.value === value.getValue();
+  equals = (value: IValueObjects): boolean => value instanceof Nome && this.value === value.getValue();
 }
