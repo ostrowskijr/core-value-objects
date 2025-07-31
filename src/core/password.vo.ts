@@ -1,40 +1,41 @@
 import { IValueObjects } from "../interface/vo.interface";
 
-export class Password implements IValueObjects<string> {
-  private value: string;
+const MIN_PASSWORD_LENGTH = 6;
+const ERROR_MSG_LENGTH = `A senha deve conter no mínimo ${MIN_PASSWORD_LENGTH} dígitos.`;
+const ERROR_MSG_SPECIAL_CHARS = (num: number) => `A senha deve conter ${num} caracteres especiais.`;
+const ERROR_MSG_UPPERCASE = (num: number) => `A senha deve conter ${num} caracteres maiúsculos.`;
 
-  constructor(value: string, options?: PasswordOptions ) {
-    try {
-      Password.validate(value, options);
-      this.value = value;
-    } catch (error: any) {
-      throw new Error(error.message);
-    }
+export class Password implements IValueObjects<string> {
+  private readonly value: string;
+
+  constructor(value: string, options?: PasswordOptions) {
+    Password.validate(value, options);
+    this.value = value;
   }
 
-  static validate(value: string, options?: PasswordOptions): boolean {
+  static validate(value: string, options?: PasswordOptions): void {
     const defaultOptions = {
+      numberOfDigits: options?.numberOfDigits || MIN_PASSWORD_LENGTH,
       ...options,
-      numberOfDigits: options?.numberOfDigits || 6,
     };
-    if (defaultOptions?.numberOfDigits && this.isValidNumberOfDigits(value, defaultOptions.numberOfDigits)) {
-      throw new Error(`A senha deve conter ${defaultOptions.numberOfDigits} digítos.`);
+
+    if (!this.hasMinLength(value, defaultOptions.numberOfDigits)) {
+      throw new Error(ERROR_MSG_LENGTH);
     }
-    if (defaultOptions?.numberOfSpecialCharacters && this.isValidSpecialCharacters(value, defaultOptions.numberOfSpecialCharacters)) {
-      throw new Error(`A senha deve conter ${defaultOptions.numberOfSpecialCharacters} caracteres especiais.`);
+    if (options?.numberOfSpecialCharacters && !this.hasSpecialChars(value, options.numberOfSpecialCharacters)) {
+      throw new Error(ERROR_MSG_SPECIAL_CHARS(options.numberOfSpecialCharacters));
     }
-    if (defaultOptions?.numberOfUppercase && this.isValidUppercase(value, defaultOptions.numberOfUppercase)) {
-      throw new Error(`A senha deve conter ${defaultOptions.numberOfUppercase} caracteres maiúsculos.`);
+    if (options?.numberOfUppercase && !this.hasUppercase(value, options.numberOfUppercase)) {
+      throw new Error(ERROR_MSG_UPPERCASE(options.numberOfUppercase));
     }
-    return true;
   }
 
   getValue = (): string => this.value;
-  equals = (value: IValueObjects): boolean => value instanceof Password && this.value === value.getValue();  
-  
-  private static isValidNumberOfDigits = (value: string, numberOfDigits: number): boolean => value.length < numberOfDigits || value.length > numberOfDigits;
-  private static isValidSpecialCharacters = (value: string, numberOfSpecialCharacters: number): boolean => (value.match(/[!@#$%^&*(),.?":{}|<>]/g) || []).length !== numberOfSpecialCharacters;
-  private static isValidUppercase = (value: string, numberOfUppercase: number): boolean => (value.match(/[A-Z]/g) || []).length !== numberOfUppercase;
+  equals = (value: IValueObjects): boolean => value instanceof Password && this.value === value.getValue();
+
+  private static hasMinLength = (value: string, minLength: number): boolean => value.length >= minLength;
+  private static hasSpecialChars = (value: string, count: number): boolean => (value.match(/[!@#$%^&*(),.?":{}|<>]/g) || []).length >= count;
+  private static hasUppercase = (value: string, count: number): boolean => (value.match(/[A-Z]/g) || []).length >= count;
 }
 
 type PasswordOptions = {

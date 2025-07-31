@@ -42,4 +42,34 @@ describe('Endereco', () => {
     const endereco2 = new Endereco({ cep, uf, cidade, logradouro, numero: '123', bairro: 'Centro' });
     expect(endereco1.equals(endereco2)).toBe(true);
   });
+
+  it('deve comparar dois endereços diferentes', () => {
+    const endereco1 = new Endereco({ cep, uf, cidade, logradouro, numero: '123', bairro: 'Centro' });
+    const endereco2 = new Endereco({ cep, uf, cidade, logradouro, numero: '124', bairro: 'Centro' });
+    expect(endereco1.equals(endereco2)).toBe(false);
+  });
+
+  it('equals deve retornar false para tipos diferentes', () => {
+    const endereco = new Endereco({ cep, uf, cidade, logradouro, numero: '123', bairro: 'Centro' });
+    expect(endereco.equals({} as any)).toBe(false);
+  });
+
+  it('deve fazer trim em bairro e numero', () => {
+    const endereco = new Endereco({
+      cep,
+      uf,
+      cidade,
+      logradouro,
+      numero: ' 123 ',
+      bairro: ' Centro ',
+    });
+    expect(endereco.getValue().numero).toBe('123');
+    expect(endereco.getValue().bairro).toBe('Centro');
+  });
+
+  it('getValue deve retornar o objeto de props', () => {
+    const props = { cep, uf, cidade, logradouro, numero: '123', bairro: 'Centro' };
+    const endereco = new Endereco(props);
+    expect(endereco.getValue()).toMatchObject(props);
+  });
 });
