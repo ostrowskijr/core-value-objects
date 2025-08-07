@@ -43,7 +43,9 @@ export class Endereco implements IValueObjects<EnderecoProps> {
       this.props.uf.equals(value.props.uf) &&
       this.props.cidade.equals(value.props.cidade) &&
       this.props.logradouro.equals(value.props.logradouro) &&
-      this.props.numero === value.props.numero
+      this.props.numero === value.props.numero &&
+      this.props.bairro === value.props.bairro &&
+      this.props.complemento === value.props.complemento
     );
   }
 }

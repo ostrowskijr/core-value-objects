@@ -5,16 +5,33 @@ export class Data implements IValueObjects<Date> {
   private readonly value: Date;
 
   constructor(data: string | Date) {
-    if (typeof data === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(data)) {
-      const [year, month, day] = data.split('-').map(Number);
-      this.value = new Date(year, month - 1, day); // modo local, evita timezone bug
+    let parsedDate: Date;
+
+    if (typeof data === 'string') {
+      if (/^\d{4}-\d{2}-\d{2}$/.test(data)) {
+        const [year, month, day] = data.split('-').map(Number);
+        parsedDate = new Date(Date.UTC(year, month - 1, day));
+        if (parsedDate.getUTCFullYear() !== year || parsedDate.getUTCMonth() !== month - 1 || parsedDate.getUTCDate() !== day) {
+          throw new Error('Data inválida.');
+        }
+      } else {
+        parsedDate = new Date(data);
+      }
     } else {
-      const parsed = new Date(data);
-      if (isNaN(parsed.getTime())) throw new Error('Data inválida.');
-      this.value = parsed;
+      parsedDate = new Date(data);
     }
+
+    if (isNaN(parsedDate.getTime())) {
+      throw new Error('Data inválida.');
+    }
+    this.value = parsedDate;
   }
   getValue = (): Date => this.value;
-  getValueFormatted = (): string => format(this.value, 'dd/MM/yyyy');
+  getValueFormatted = (): string => {
+    const day = String(this.value.getUTCDate()).padStart(2, '0');
+    const month = String(this.value.getUTCMonth() + 1).padStart(2, '0');
+    const year = this.value.getUTCFullYear();
+    return `${day}/${month}/${year}`;
+  };
   equals = (value: IValueObjects): boolean => value instanceof Data && this.value.toISOString() === value.getValue().toISOString();
 }
