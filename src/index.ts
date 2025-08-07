@@ -12,3 +12,6 @@ export * from "./core/cidade.vo";
 export * from "./core/logradouro.vo";
 export * from "./core/endereco.vo";
 export * from "./core/percentual.vo";
+export * from "./core/uuid.vo";
+export * from "./core/nome.vo";
+export * from "./core/password.vo";

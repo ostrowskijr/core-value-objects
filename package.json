@@ -1,6 +1,6 @@
 {
   "name": "core-value-objects",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Biblioteca de Value Objects reutilizáveis para domínios de negócio",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -19,7 +19,7 @@
     "domínio",
     "typescript"
   ],
-  "author": "Luis Ostrowski",
+  "author": "Luis A. Ostrowski Jr. <ostrowskijr@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^30.0.0",
