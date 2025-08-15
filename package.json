@@ -1,6 +1,6 @@
 {
   "name": "core-value-objects",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Biblioteca de Value Objects reutilizáveis para domínios de negócio",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

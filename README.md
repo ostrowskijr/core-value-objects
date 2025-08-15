@@ -18,16 +18,26 @@ Centralizar e padronizar a validação, formatação e comparação de valores f
 npm install core-value-objects
 ```
 
+### Via Yarn:
+
+```bash
+yarn add core-value-objects
+```
+
 ### Local (link simbólico):
 
 ```bash
 npm install /caminho/absoluto/para/core-value-objects
+# ou
+yarn add /caminho/absoluto/para/core-value-objects
 ```
 
 ### Ou via GitHub:
 
 ```bash
 npm install git+https://github.com/ostrowskijr/core-value-objects.git
+# ou
+yarn add git+https://github.com/ostrowskijr/core-value-objects.git
 ```
 
 ---
@@ -123,8 +133,23 @@ crp.getValueFormatted(); // "06/12345"
 ```ts
 import { Nome } from "core-value-objects";
 
-const nome = new Nome("  João da Silva  ");
-nome.getValue(); // "João da Silva"
+// Nome válido com nome e sobrenome
+const nome = new Nome("João Silva");
+nome.getValue(); // "João Silva"
+
+// Nome com múltiplas palavras (nome, sobrenome, etc.)
+const nomeCompleto = new Nome("  João da Silva  ");
+nomeCompleto.getValue(); // "João da Silva" (espaços normalizados)
+
+// Nome com acentos e caracteres especiais
+const nomeEspecial = new Nome("José D'Ávila");
+nomeEspecial.getValue(); // "José D'Ávila"
+
+// Validações automáticas:
+// ✅ Deve conter ao menos nome e sobrenome
+// ✅ Cada parte deve ter ao menos 2 caracteres
+// ✅ Aceita letras, acentos, espaços, hífens e apóstrofos
+// ❌ Rejeita: "João" (apenas uma palavra), "J Silva" (parte muito curta)
 ```
 
 #### ✅ `UUID`
@@ -238,6 +263,7 @@ Todos os VOs lançam `Error` se o valor for inválido, logo são seguros por con
 - **Faixa de valores**: Percentuais entre 0% e 100%, valores positivos, etc.
 - **Integridade**: Validação de CPF/CNPJ, cartão de crédito, etc.
 - **Segurança**: Critérios de senha forte
+- **Composição**: Nomes devem conter ao menos nome e sobrenome, cada parte com mínimo de 2 caracteres
 
 ---
 
@@ -246,8 +272,15 @@ Todos os VOs lançam `Error` se o valor for inválido, logo são seguros por con
 Para rodar os testes unitários:
 
 ```bash
+# Instalar dependências
 npm install
+# ou
+yarn install
+
+# Executar testes
 npm test
+# ou
+yarn test
 ```
 
 ---
@@ -256,6 +289,8 @@ npm test
 
 ```bash
 npm run build
+# ou
+yarn build
 ```
 
 Gera os arquivos `.js` e `.d.ts` dentro da pasta `dist/`.
@@ -270,6 +305,76 @@ Este projeto segue os princípios de:
 - **Clean Architecture**: Separação clara de responsabilidades
 - **Clean Code**: Código legível, testável e mantível
 - **SOLID**: Princípios de design orientado a objetos
+
+---
+
+## 📦 **Gerenciamento de Dependências**
+
+### **NPM vs Yarn**
+
+Este projeto suporta tanto **NPM** quanto **Yarn** como gerenciadores de pacotes. Escolha o que preferir:
+
+| Comando              | NPM                    | Yarn                |
+| -------------------- | ---------------------- | ------------------- |
+| **Instalar**         | `npm install`          | `yarn install`      |
+| **Adicionar**        | `npm install <pkg>`    | `yarn add <pkg>`    |
+| **Testes**           | `npm test`             | `yarn test`         |
+| **Build**            | `npm run build`        | `yarn build`        |
+| **Dev Dependencies** | `npm install -D <pkg>` | `yarn add -D <pkg>` |
+
+---
+
+## 🚀 **Scripts Disponíveis**
+
+### **Desenvolvimento**
+
+```bash
+# Instalar dependências
+npm install
+# ou
+yarn install
+
+# Executar testes em modo watch
+npm run test:watch
+# ou
+yarn test:watch
+
+# Executar testes com coverage
+npm run test:cov
+# ou
+yarn test:cov
+```
+
+### **Produção**
+
+```bash
+# Build do projeto
+npm run build
+# ou
+yarn build
+
+# Limpar build (Linux/Mac)
+npm run clean
+# ou
+yarn clean
+
+# No Windows, use:
+# rmdir /s dist
+# ou delete manualmente a pasta dist/
+```
+
+---
+
+## 🔍 **Validações Específicas por VO**
+
+### 📝 **Nome**
+
+- **Estrutura**: Deve conter ao menos nome e sobrenome
+- **Comprimento**: Cada parte deve ter mínimo de 2 caracteres
+- **Caracteres**: Aceita letras, acentos, espaços, hífens e apóstrofos
+- **Normalização**: Remove espaços múltiplos automaticamente
+- **Exemplos válidos**: "João Silva", "Maria da Silva", "José D'Ávila"
+- **Exemplos inválidos**: "João", "J Silva", "João123 Silva"
 
 ---
 
