@@ -15,3 +15,4 @@ export * from "./core/percentual.vo";
 export * from "./core/uuid.vo";
 export * from "./core/nome.vo";
 export * from "./core/password.vo";
+export * from "./exceptions/cpf.exceptions";

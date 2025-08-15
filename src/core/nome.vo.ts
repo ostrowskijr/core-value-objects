@@ -1,3 +1,4 @@
+import { InvalidNomeException } from "../exceptions/nome.exceptions";
 import { IValueObjects } from "../interface/vo.interface";
 
 export class Nome implements IValueObjects<string> {
@@ -5,11 +6,11 @@ export class Nome implements IValueObjects<string> {
 
   constructor(value: string) {
     if (!value) {
-      throw new Error("Nome deve conter ao menos nome e sobrenome.");
+      throw new InvalidNomeException();
     }
     const trimmedValue = value.trim();
     if (!Nome.validate(trimmedValue)) {
-      throw new Error("Nome deve conter ao menos nome e sobrenome.");
+      throw new InvalidNomeException();
     }
     this.value = trimmedValue.replace(/\s+/g, " ");
   }

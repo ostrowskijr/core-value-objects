@@ -1,3 +1,7 @@
+import {
+  InvalidCepException,
+  InvalidCepLengthException,
+} from "../exceptions/cep.exceptions";
 import { IValueObjects } from "../interface/vo.interface";
 
 export class Cep implements IValueObjects<string> {
@@ -5,7 +9,8 @@ export class Cep implements IValueObjects<string> {
 
   constructor(value: string) {
     const valueClean = value.replace(/\D/g, "");
-    if (!Cep.validate(valueClean)) throw new Error("CEP inválido.");
+    if (!Cep.validate(valueClean)) throw new InvalidCepException();
+    if (valueClean.length !== 8) throw new InvalidCepLengthException();
     this.value = valueClean;
   }
   private static validate = (cep: string): boolean => /^\d{8}$/.test(cep);

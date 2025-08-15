@@ -1,11 +1,11 @@
+import { InvalidPercentualException } from "../exceptions/percentual.exceptions";
 import { IValueObjects } from "../interface/vo.interface";
 
 export class Percentual implements IValueObjects<number> {
   private readonly value: number;
 
   constructor(value: number) {
-    if (value < 0) throw new Error("Percentual não pode ser negativo.");
-    if (value > 100) throw new Error("Percentual não pode ser maior que 100%.");
+    if (value < 0 || value > 100) throw new InvalidPercentualException();
     this.value = parseFloat(value.toFixed(2));
   }
 

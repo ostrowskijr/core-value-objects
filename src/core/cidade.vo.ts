@@ -1,3 +1,4 @@
+import { InvalidCidadeException } from "../exceptions/cidade.exceptions";
 import { IValueObjects } from "../interface/vo.interface";
 
 export class Cidade implements IValueObjects<string> {
@@ -6,7 +7,7 @@ export class Cidade implements IValueObjects<string> {
   constructor(value: string) {
     const trimmedValue = value.trim();
     if (!Cidade.validate(trimmedValue)) {
-      throw new Error('Nome de cidade inválido.');
+      throw new InvalidCidadeException();
     }
     this.value = trimmedValue;
   }
@@ -15,5 +16,7 @@ export class Cidade implements IValueObjects<string> {
 
   getValue = (): string => this.value;
 
-  equals = (value: IValueObjects): boolean => value instanceof Cidade && this.value.toLowerCase() === value.getValue().toLowerCase();
+  equals = (value: IValueObjects): boolean =>
+    value instanceof Cidade &&
+    this.value.toLowerCase() === value.getValue().toLowerCase();
 }
